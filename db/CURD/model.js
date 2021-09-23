@@ -25,7 +25,6 @@ function getModel(modelName) {
     }
   })
 }
-
 //> 根据名称,创建对应集合对象
 function createCourse(name) {
   return new Promise(function (resolve, reject) {
@@ -40,7 +39,6 @@ function createCourse(name) {
     }
   })
 }
-
 module.exports = {
   getModel
 }

@@ -1,9 +1,6 @@
 
 
 ```js
-/**
-* &管理员
-*/ 
 module.exports = {
   schema: {
     email: {

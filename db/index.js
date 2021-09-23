@@ -11,111 +11,156 @@ module.exports = {
   async initDatabase(url, options) {
     return await i.initDatabase(url, options);
   },
+  // -------- 创建--------------
+  /**
+   * > 添加一条数据
+   * @param {string} name : 集合名字
+   * @param {Object} rule :数据
+   * @返回值: 创建成功的数据, 或者错误信息
+   */
+  addData(modelName, rule) {
+    return c.addData(modelName, rule);
+  },
+  // -------- 删除--------------
+  /**
+   * @根据指定id删除对应数据
+   * @param {string} name : 集合名字
+   * @param {Object} rule :数据
+   * @returns 成功返回全部数据
+   */
+  delData(name, rule) {
+    return c.delData(name, rule);
+  },
 
   // -------- 查询--------------
   /**
    * > 判断是否有此用户
-   * @返回: true 表示存在; false 表示不存在
+   * @modelName{string}: 数据库中保存用户信息的集合名称
+   * @rule{Object}:需要的数据 {查询字段:'查询字段的值'} 例如:{_id:id}|{email:email}|{phone:phone}
+   * @返回: resolve:true 表示存在; reject 返回错误原因
    */
-  async isThisUserExist(rule) {
-    return await r.isThisUserExist(rule);
+  isThisUserExist(modelName, rule) {
+    return r.isThisUserExist(modelName, rule);
   },
   /**
-   * > 此用户的密码是否和传入密码一致
-   * @user_id: 用户id
-   * @password: 用户密码(请提前加密哦)
-   * @返回: true 表示一致; false 表示不同
-   */
-  async comparePasswordSameById(user_id, password) {
-    return await r.comparePasswordSameById(user_id, password);
+    * > 此用户的密码是否和传入密码一致
+    * @modelName{string}: 数据库中保存用户信息的集合名称
+    * @id: 用户id
+    * @password: 用户密码(请提前加密哦)
+    * @返回: true 表示一致; false 表示不同
+    */
+  comparePasswordSameById(modelName, id, password) {
+    return r.comparePasswordSameById(modelName, id, password);
   },
   /**
-   * > 通过 id 获取用户信息
-   * @返回: { result: true, data: result } 有结果
-   * @返回: { result: false, data: null|error } 没有结果
+   * >  获取用户信息,并置空敏感字段
+   * @param {string} modelName 数据库中保存用户信息的集合名称
+   * @param {string} id 
+   * @param {Array} 可选,field 需要置空的其他字段名,默认必有 password 字段 
+   * @returns 返回的用户信息中置空 password 字段
    */
-  async getUserInfoById(user_id) {
-    return await r.getUserInfoById(user_id);
+  getUserInfoById(modelName, id, field) {
+    return r.getUserInfoById(modelName, id, field);
   },
   /**
    * > 查询指定集合的数据
-   * @modelName : 集合名字
-   * @rule: 查询数据的条件
+   * @param {string} modelName :集合名字
+   * @param {Object} rule :查询数据的条件 {_id:id}|{email:email}
+   * @returns 成功返回全部数据
    */
-  async find(modelName, rule) {
-    return await r.find(modelName, rule);
-  },
-  /**
-   * > 查询指定集合的指定字段中的数据
-   * @ modelName : 模型名字
-  * @ select 查询字段名,字符串形式
-  * @ isShow_id 是否显示id字段,默认不显示 布尔值
-   */
-  async findSelect(modelName, select, isShow_id) {
-    return await r.findSelect(modelName, select, isShow_id);
+  find(modelName, rule) {
+    return r.find(modelName, rule);
   },
   /**
    * > 查询一条数据数据
-     * @ modelName : 模型名字
-  * @ 查询数据
+   * @param {string} modelName  :集合名字
+   * @param {Object} rule  :查询数据的条件 {_id:id}|{email:email}
+   * @returns 成功返回一条数据
    */
-  async findOne(modelName, rule) {
-    return await r.findOne(modelName, rule);
+  findOne(modelName, rule) {
+    return r.findOne(modelName, rule);
   },
+  /**
+   * > 查询指定集合的指定的字段数据
+   * @param {string} modelName 
+   * @param {string} select 
+   * @param {Boolean} isShow_id : true显示 false 不显示,默认不显示
+   * @returns 仅返回指定字段的数据
+   */
+  findSelect(modelName, select, isShow_id) {
+    return r.findSelect(modelName, select, isShow_id);
+  },
+  /**
+   * > 设置分页条件,查询信息
+   * @param {string} modelName : 集合名字
+   * @param {Object} rule : 查询数据的条件
+   * @param {Object} options : 查询选项: {
+   * @   find_size: 50; 一次查询50条数据;默认 20条
+   * @   last_id{String}: 当前页的最后一个数据 id, 优先级高于 page_No
+   * @   page_No{Number}: 查看第几页: 必须传最小值 1,
+   * @ }
+   * @returns _id 降序的数据
+   */
+  findByOptions(modelName, rule, options) {
+    return r.findByOptions(modelName, rule, options);
+  },
+  /**
+   * > 设置分页条件,查询信息并按照指定字段排序
+   * @param {string} modelName : 集合名字
+   * @param {Object} rule : 查询数据的条件
+   * @param {Object} options {
+   * @   find_size{number}: 一次查询指定条数据
+   * @   page_No{number}: 指定查询页数,最小值 1
+   * @ }
+   * @param {Object} sort :指定字段排序 {'字段名':-1} -1 降序, 1升序
+   * @returns 
+   */
+  findAndOptionsToSort(modelName, rule, options, sort) {
+    return r.findAndOptionsToSort(modelName, rule, options, sort);
+  },
+
+
+
   // -------- 更新--------------
   /**
-    * > 根据 user_id 属性 更新指定集合的数据
-    * @ 参数: model_name : 数据库名称
-    * @ 参数: data : 需要更新的数据,包含user_id 字段
-    * @ 成功返回新的数据,  错误:返回null
-    */
-  async updataById(modelName, rule) {
-    return await u.updataById(modelName, rule);
-  },
-  /**
-    * > 根据条件更新一条指定集合的数据
-    * @ 参数: model_name : 集合的名称
-    * @ 参数: condition : 查询的条件 例子: {字段名:某个值}
-    * @ 参数: newData : 需要更新数据 例子:{字段名:新的值}
-    */
-  async findOneAndUpdate(modelName, rule) {
-    return await u.findOneAndUpdate(modelName, rule);
-  },
-
-  /**
-   * > 通过邮箱或手机号,强制更新密码
-   * @model: 数据库模型对象
-   * @data: {account :{email:值,...}|{phone:值,...},password:密码}
-   * @返回: 用户信息(取出密码后的)
+   * > 根据 数据_id 属性 更新指定集合的数据
+   * @param {string} model_name  :集合名称
+   * @param {string} id :指定集合的_id字段值
+   * @param {Object} newData :需要更新的数据
+   * @returns 成功返回新的数据
    */
-  async updatePasswordByPhoneOrEmail(modelName, rule) {
-    return await u.updatePasswordByPhoneOrEmail(modelName, rule);
+  updateById(model_name, id, newData) {
+    return u.updateById(model_name, id, newData)
   },
-
-  // > 更新用户信息
-  async updateUserInfo(modelName, rule) {
-    return await u.updateUserInfo(modelName, rule);
-  },
-
-
-  // -------- 创建--------------
-
   /**
-   * > 添加一条数据
-   * @name : 集合名称
-   * @data : 要添加的数据
-   * @返回值: 创建成功的数据, 或者错误信息
+   * > 根据 _id 属性 更新指定集合的数据,并在返回数据隐藏指定字段的值
+   * @param {string} model_name :集合名称
+   * @param {string} id :指定集合的_id字段值
+   * @param {Object} newData {字段名:字段值,字段名:字段值,}
+   * @param {Array} IgnoreField 需要置空的字段 ['email','password'...]
+   * @returns 
    */
-  async addData(modelName, rule) {
-    return await c.addData(modelName, rule);
+  updataByIdAndIgnoreField(model_name, id, newData, IgnoreField) {
+    return u.updataByIdAndIgnoreField(model_name, id, newData, IgnoreField);
   },
-  // -------- 删除--------------
+
   /**
-* @根据指定id删除对应数据
-* @name : 集合名称
-* @data : 要删除的数据条件
-*/
-  async delData(name, rule) {
-    return await c.delData(name, rule);
+  * > 根据条件更新符合条件的全部数据
+  * @ 参数: model_name : 集合的名称
+  * @ 参数: condition : 查询的条件 例子: {字段名:某个值}
+  * @ 参数: newData : 需要更新数据 例子:{字段名:新的值}
+  */
+  update(model_name, condition, newData) {
+    return u.update(model_name, condition, newData);
+  },
+
+  /**
+ * > 更新符合条件的一条数据
+ * @ 参数: model_name : 集合的名称
+ * @ 参数: condition : 查询的条件 例子: {字段名:某个值}
+ * @ 参数: newData : 需要更新数据 例子:{字段名:新的值}
+ */
+  updateOne(model_name, condition, newData) {
+    return u.updateOne(model_name, condition, newData)
   },
 }

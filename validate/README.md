@@ -3,15 +3,16 @@
 ## 说明
 
 - 本模块是 GitHub 上  `parameter` 的中文学抄版本， 是在学习 `eggjs` 了解到数据校验的 `egg`版本，然后其中讲到使用了 `parameter` 但是因为种种原因都不符合本人的使用习惯，然后就重新整理给予自己使用。在自己使用的过程中也秉承前人栽树后人乘凉的想法分享出来。
-- 好用你笑纳，无用你见笑。
 - 本人不对后续更新，持续维护，使用后果做任何形式的承诺。
+
+> 1. 删除了原框架的 options.translate 选项, 因为不需要适配其他语言.就是自己用或了解中文的使用
 
 ## 安装
 ```shell
 $ npm install neal-parameter --save
 ```
 
-#### 
+
 
 ## 用法
 
@@ -19,17 +20,18 @@ $ npm install neal-parameter --save
 
 `Parameter` Class
 
-- `constructor([options])` - new Class `Parameter` instance
-  - `options.translate` - translate function
-  - `options.validateRoot` - config whether to validate the passed in value must be a object, default to `false`.
-  - `options.convert` - convert primitive params to specific type, default to `false`.
-  - `options.widelyUndefined` - convert empty string(`''`), NaN, Null to undefined, this option can make `rule.required` more powerful, default to `false`.__This may change the original input params__.
-- `validate(rule, value)` - validate the `value` conforms to `rule`. return an array of errors if break rule.
-- `addRule(type, check)` - add custom rules.
-  - `type` - rule type, required and must be string type.
-  - `check` - check handler. can be a `function` or a `RegExp`.
-
-
+- `constructor([options])` -创建实力时,可设置可选项
+  - `options.validateRoot` - 接受布尔值; 
+    - 传入的校验数据是否必须是一个对象, 默认: `false`
+  - `options.convert` - 接受布尔值; 
+    - 将原始参数转换为特定类型，默认为 `false`。
+  - `options.widelyUndefined` - 接受布尔值;
+    - 将空字符串(`''`), NaN, Null 转换为undefined，这个选项可以让`rule.required` 更加强大，默认为`false`。__这可能会改变原来的输入参数__。
+- `validate(rule, value)` - 暴露使用的方法
+  - 验证 `value` 符合 `rule`。 如果违反规则，则返回错误数组。
+- `addRule(type, check)` - 添加自定义规则
+  - `type` - 规则类型，必填，必须是字符串类型。
+  - `check` - 校验程序。 可以是 `function` 或 `RegExp`
 
 __Note:当”选项。convert ' enabled，所有内置规则检查原始输入参数并将其转换为规则的默认' convertType '(定义如下)，你也可以在每个规则定义中通过' convertType '选项为特定规则启用该特性
 
@@ -41,12 +43,7 @@ __Note:当”选项。convert ' enabled，所有内置规则检查原始输入�
 var Parameter = require('parameter');
 
 var parameter = new Parameter({
-  translate: function() {
-    var args = Array.prototype.slice.call(arguments);
-    // Assume there have I18n.t method for convert language.
-    return I18n.t.apply(I18n, args);
-  },
-  validateRoot: true, // restrict the being validate value must be a object
+  validateRoot: true, //限制被验证值必须是一个对象
 });
 
 var data = {

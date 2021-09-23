@@ -1,40 +1,47 @@
-const n_file = require('./file')
-const n_if = require('./if')
-const n_array = require('./arrar')
-const n_date = require('./date')
+const n_email = require('./emailCode')
+const n_secretKey = require('./secretKey')
+
 
 module.exports = {
-
-  // > 判断对象的类型
-  isType(obj) {
-    return n_if.isType(obj);
-  },
-
   /**
-   * > 数据流转文件
-   * @param {*} stream 数据流
-   * @param {*} path 想要保存的位置
-   * @returns 成功返回保存路径, 错误给予错误原因
+   * > 发送邮件
+   * @param {object} emailConfig {
+   * @    host: "smtp.exmail.qq.com", 
+   * @    port: 465,    
+   * @    secure: true, 
+   * @    user: "map@map.com", 
+   * @    pass: "密码" 
+   * @ }
+   * @param {object} content {
+   * @    to{string}: 发送目的地的邮箱
+   * @    subject{string}: 邮件的标题
+   * @    text{string}: 文字内容
+   * @    html{string}: html 格式的文字(模板)
+   * @  }
+   * @returns 
    */
-  streamToFile(stream, path) {
-    return n_file.streamToFile(stream, path);
+  sendEmail(emailConfig, content) {
+    return n_email.sendEmail(emailConfig, content)
   },
+
+  // ---- 加密解密常量工具类
   /**
-    * 数组元素交换位置
-    * @param {array} arr 数组
-    * @param {number} index1 添加项目的位置
-    * @param {number} index2 删除项目的位置
-    * index1和index2分别是两个数组的索引值，即是两个要交换元素位置的索引值，如1，5就是数组中下标为1和5的两个元素交换位置
-    */
-  swapArray(arr, index1, index2) {
-    return n_array.swapArray(arr, index1, index2)
-  },
-  /**
-   * 格式化时间
-   * @param {*} date 时间
-   * @returns 返回时间格式: 2021/09/11 13:29:01
+   * > 加密信息
+   * @param {String|Object} text 需要加密的信息,文本或对象
+   * @param {string} key : 16位
+   * @returns 成功返回 true ,失败 false
    */
-  formatTime(date) {
-    return n_date.formatTime(date)
-  }
+  encryptedInformation(text, key) {
+    return n_secretKey.encryptedInformation(text, key)
+  },
+
+  /**
+   * > 解密信息
+   * @param {string} key : 16位
+   * @returns 解密信息
+   */
+  decryptionKey(key) {
+    return n_secretKey.decryptionKey(key)
+  },
+
 }

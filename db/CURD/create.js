@@ -18,7 +18,11 @@ module.exports = {
       try {
         const model = await mongo.getModel(name)
         const result = await model.create(rule)
-        resolve(result)
+        if (result) {
+          resolve(result)
+        } else {
+          reject('创建失败')
+        }
       } catch (error) {
         if (error.code == 11000) {
           reject('字段值重复' + error.keyValues)

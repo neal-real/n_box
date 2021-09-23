@@ -1,0 +1,25 @@
+{
+  "name": "neal_box",
+  "version": "1.0.1",
+  "description": "用作提升个人开发效率",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/neal-real/n_box.git"
+  },
+  "keywords": [
+    "顺手工具"
+  ],
+  "author": "neal_real",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/neal-real/n_box/issues"
+  },
+  "homepage": "https://github.com/neal-real/n_box#readme",
+  "dependencies": {
+    "node-xlsx": "^0.17.1"
+  }
+}

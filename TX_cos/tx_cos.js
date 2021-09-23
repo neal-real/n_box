@@ -2,23 +2,23 @@
  * ^ $上传文件到腾讯云对象
  * # 1.说明
 */
-// 腾讯云对象存储和 配置信息
-const COS = require('cos-nodejs-sdk-v5');
 // 随机字符
 const stringRandom = require('string-random')
 const fs = require("fs");
 
+// 腾讯云对象存储和 配置信息
+const COS = require('cos-nodejs-sdk-v5');
+let cos
+
 const config = {
-  cos_imageDir: "/Volumes", // 图片临时存放目录
-  BucketName: '',                 // 存储桶名
-  Region: '',                          // 固定写法
-  root_path: '/',
-  StorageClass: '',                       // 存储类型:标准; 固定写法
+  SecretId: '',               // 腾讯云账号中获取
+  SecretKey: '',              // 腾讯云账号中获取
+  cos_imageDir: "",           // 临时存放目录
+  BucketName: '',             // 桶名
+  Region: '',                 // 地区固定写法
+  root_path: '/',             // 桶下的目录路径
+  StorageClass: 'STANDARD',   // 存储方式固定写法:标准存储
 }
-const cos = new COS({
-  SecretId: '',
-  SecretKey: ''
-})
 
 /**
  * ^ 腾讯存储对象配置信息
@@ -41,7 +41,42 @@ function TXCosInfo(root_path, timeStr, localFilesPath) {
 }
 
 module.exports = {
-
+  /**
+   * > 初始化
+   * @param {object} TXConfig {
+   * @  SecretId{string}: TX云 密钥 id
+   * @  SecretKey{string}: TX云 密钥 key
+   * @  cos_imageDir{string}: 临时存放目录
+   * @  picturePrefix{string}: 文件名的前缀
+   * @  BucketName{string}: 桶名
+   * @  root_path{string}: 桶内的路径
+   * @  Region{string}: 地区固定写法
+   * @ }
+   * @returns 
+   */
+  init(TXConfig) {
+    if (
+      !TXConfig.SecretId ||
+      !TXConfig.SecretKey ||
+      !TXConfig.cos_imageDir ||
+      !TXConfig.picturePrefix ||
+      !TXConfig.BucketName ||
+      !TXConfig.root_path ||
+      !TXConfig.Region
+    ) {
+      throw '初始化参数不齐'
+    }
+    for (const key in TXConfig) {
+      if (Object.hasOwnProperty.call(TXConfig, key)) {
+        config[key] = TXConfig[key];
+      }
+    }
+    // 初始化 COS 对象
+    cos = new COS({
+      SecretId: TXConfig.SecretId,
+      SecretKey: TXConfig.SecretKey
+    })
+  },
   /** 
    * > 1. 将指定路径的文件上传到腾讯云对象中
    * @fileNamePrefix: 设置一个文件名的前缀 例如: 用户数据
@@ -75,7 +110,7 @@ module.exports = {
    *  删除指定 url
    * @param {*} urlPath 完整的 URL 路径
    */
-  delImageUrl(urlPath) {
+  delByUrl(urlPath) {
     return new Promise((resolve, reject) => {
       try {
         // 截取   url

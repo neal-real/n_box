@@ -1,17 +1,20 @@
 /**
- * 返回特定格式的时间
- * @param {*} date 
- * @returns  2021/09/11 13:29:01
+ * > 返回特定格式的时间
+ * @param {Date} date : 时间对象
+ * @param {string} DateFormat :年月日的分割字符,默认 /
+ * @param {string} timeFormat :时秒分的分割字符, 默认 :
+ * @returns 2021/09/11 13:29:01
  */
-const formatTime = date => {
+function formatTime(date, dateFormat, timeFormat) {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
   const hour = date.getHours()
   const minute = date.getMinutes()
   const second = date.getSeconds()
-
-  return `${[year, month, day].map(formatNumber).join('/')} ${[hour, minute, second].map(formatNumber).join(':')}`
+  dateFormat = dateFormat ? dateFormat : '/'
+  timeFormat = timeFormat ? timeFormat : ':'
+  return `${[year, month, day].map(formatNumber).join(dateFormat)} ${[hour, minute, second].map(formatNumber).join(timeFormat)}`
 }
 // > formatTime 依赖的方法
 const formatNumber = n => {

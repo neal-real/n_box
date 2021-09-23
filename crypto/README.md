@@ -5,6 +5,8 @@
 1. 依赖模块
 
    ```shell
+   #crypto node 自带
+   #jsonwebtoken
    npm i crypto jsonwebtoken
    ```
 
@@ -32,7 +34,7 @@ module.exports = {
 // app/service/user.ts
 import { Service } from 'egg';
 
-export default class User extends Service {
+module.exports =  class User extends Service {
   public async signUp(data: any) {
     try {
       // 加密, abc 后可以传入加密字符串 key,可选参数
@@ -52,7 +54,7 @@ export default class User extends Service {
 
 ## 鉴权模块
 
-1. 登录成功添加 token
+1. 登录成功生成 token
 
 ```js
 /* .生成JWT令牌

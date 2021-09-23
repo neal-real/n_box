@@ -40,19 +40,21 @@ module.exports = {
   },
   /**
    * ^ aes 加密 
-   * # aes 加密和解密用的是同一套 key
+   * # aes 加密和解密用的是同一套 key,且长度是16位
    */
-  cipherTextByAES(text, key) {
+  cipherTextByAES16(text, key) {
     if (!text && !key) {
       throw new Error('json 和 key 均不能为 null 值')
     }
     return n_crypto.cipherTextByAES(text, key)
   },
   /**
-   * ^ aes 解密 
-   * # aes 加密和解密用的是同一套 key
-   */
-  clearTextByAES(encrypted, key) {
+    * ^ aes 解密 
+    * @param {string} encrypted :需要解密的信息
+    * @param {*} key :解密用的 key: 长度16位
+    * @returns  返回解密后的信息
+    */
+  clearTextByAES16(encrypted, key) {
     if (!encrypted && !key) {
       throw new Error('json 和 key 均不能为 null 值')
     }

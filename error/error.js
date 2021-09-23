@@ -7,9 +7,6 @@ module.exports = {
     if (error == undefined) {
       return error.message
     }
-    if (Array.isArray(error)){
-      msg = error[0].message ? error[0].message : error
-    }
     return error;
   },
 }

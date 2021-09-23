@@ -17,13 +17,15 @@ npm i mongoose
 const db = require( './app/n_box/db/init')
 class AppBootHook {
   async didLoad() {
-    // 可以用来加载应用自定义的文件，启动自定义的服务
-    const conf = this.app.config.mongoose
+    //>连接数据库
+    const conf = {
+      url: "mongodb://数据库用户名:数据库用户密码@127.0.0.1:27017/knowmap",
+      options: { useNewUrlParser: true, useUnifiedTopology: true }
+    }
     // >连接数据库
     db.initDatabase(conf.url, conf.options)
   }
 }
-
 module.exports = AppBootHook;
 ```
 
@@ -45,7 +47,7 @@ module.exports = {
 ```js
 // app/service/user.ts
 import { Service } from 'egg';
-export default class User extends Service {
+module.exports =  class User extends Service {
   public async signUp(ctx: any) {
     try {
       const realData = {
