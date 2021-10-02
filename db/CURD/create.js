@@ -9,6 +9,7 @@ const mongo = require('./model.js')
 module.exports = {
   /**
   * > 添加一条数据
+  * > 说明: 集合对应的文件会在 n_box 的同级目录 schema 中寻找或在 n_box>db>schema 下寻找
   * @name : 集合名称
   * @data : 要添加的数据
   * @返回值: 创建成功的数据, 或者错误信息

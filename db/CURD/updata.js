@@ -80,7 +80,7 @@ module.exports = {
       try {
         let model = await mongo.getModel(model_name)
         const result = await model.update(condition, newData)
-        if (result.n != 0) { return resolve(`删除成功,删除数据:${result.n}条`) }
+        if (result.n != 0) { return resolve(`更新成功,变化数据:${result.n}条`) }
         else if (result.ok == 1) { return resolve('操作成功,但数据没有变化') }
         else { return reject(reuslt) }
       } catch (error) {
@@ -100,7 +100,9 @@ module.exports = {
         let model = await mongo.getModel(model_name)
         const options = { new: true, runValidators: true }
         const result = await model.updateOne(condition, newData, options)
-        return resolve(result);
+        if (result.n != 0) { return resolve(`更新成功,变化数据:${result.n}条`) }
+        else if (result.ok == 1) { return resolve('操作成功,但数据没有变化') }
+        else { return reject(reuslt) }
       } catch (error) {
         reject(error)
       }

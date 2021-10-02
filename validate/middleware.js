@@ -1,12 +1,12 @@
 /**
  * ^ 提供数据格式的校验功能 rule
  * #1.数据校验
-*/
+ */
 
-const Parameter = require('./validate');
+const Parameter = require("./validate");
 const ruleReal = new Parameter({
   validateRoot: true,
-  required: true
+  required: true,
 });
 module.exports = {
   /**
@@ -16,33 +16,39 @@ module.exports = {
    * @返回: 错误原因, 正确无返回值
    */
   validateDataFormat(rule, data) {
-    try {
-      if (!data) return '无任何校验数据进入'
-      let objRule;
-      if (typeof rule === 'object') {
-        objRule = rule
-      } else {
-        objRule = require(rule)
-      }
-      if (objRule) {
-        const error = ruleReal.validate(objRule, data)
-        if (error) {
-          return error
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (!data) return reject("无任何校验数据进入");
+        
+        let objRule;
+        if (typeof rule === "object") {
+          objRule = rule;
         } else {
-          const array = Object.keys(data)
-          for (let i = 0; i < array.length; i++) {
-            const key = array[i];
-            if (objRule[key] == undefined) {
-              return [{ field: '字段越界', message: '不能添加规则之外的字段' }]
-            }
-          }
+          objRule = require(rule);
         }
-      } else {
-        return '读取不到规则文件,请检查后在试'
+        if (objRule) {
+          const error = ruleReal.validate(objRule, data);
+          if (error) {
+            reject(error);
+          } else {
+            const array = Object.keys(data);
+            for (let i = 0; i < array.length; i++) {
+              const key = array[i];
+              if (objRule[key] == undefined) {
+                return reject([{ field: "字段越界", message: "不能添加规则之外的字段" }]);
+              }
+            }
+            // 如果没越界
+            return resolve();
+          }
+          
+        } else {
+          return reject("读取不到规则文件,请检查后在试");
+        }
+      } catch (error) {
+        reject(error.message);
       }
-    } catch (error) {
-      return error.message
-    }
+    });
   },
   /**
    * > 数据格式校验 : 可以添加规则文件中没有的字段,没有添加的字段不做校验
@@ -51,22 +57,28 @@ module.exports = {
    * @返回: 错误原因, 正确无返回值
    */
   validateDataFormatSimpleMode(rule, data) {
-    try {
-      if (!data) return '无任何校验数据进入'
-      let objRule;
-      if (typeof rule === 'object') {
-        objRule = rule
-      } else {
-        objRule = require(rule)
+    return new Promise(async (resolve, reject) => {
+      try {
+        if (!data) return reject("无任何校验数据进入");
+        let objRule;
+        if (typeof rule === "object") {
+          objRule = rule;
+        } else {
+          objRule = require(rule);
+        }
+        if (objRule) {
+          const error = ruleReal.validate(objRule, data);
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        } else {
+          return reject("读取不到规则文件,请检查后在试");
+        }
+      } catch (error) {
+        reject(error.message);
       }
-      if (objRule) {
-        const error = ruleReal.validate(objRule, data)
-        return error
-      } else {
-        return '读取不到规则文件,请检查后在试'
-      }
-    } catch (error) {
-      return error.message
-    }
-  }
-}
+    });
+  },
+};

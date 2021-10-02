@@ -78,7 +78,7 @@ class Parameter {
       // # 1.1格式化规则
       const rule = formatRule(rules[key]);
       // # 1.2获取对应的值
-      const value = obj[key];
+      let value = obj[key];
 
       /**
       * # 2.调整值

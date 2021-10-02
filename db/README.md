@@ -47,7 +47,7 @@ module.exports = {
 ```js
 // app/service/user.ts
 import { Service } from 'egg';
-module.exports =  class User extends Service {
+export default class User extends Service {
   public async signUp(ctx: any) {
     try {
       const realData = {

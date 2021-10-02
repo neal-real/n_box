@@ -1,138 +1,126 @@
 /**
  * ^ $上传文件到腾讯云对象
  * # 1.说明
-*/
+ */
 // 随机字符
-const stringRandom = require('string-random')
+const { getRandomName, getLastItem } = require("../util");
 const fs = require("fs");
 
 // 腾讯云对象存储和 配置信息
-const COS = require('cos-nodejs-sdk-v5');
-let cos
-
-const config = {
-  SecretId: '',               // 腾讯云账号中获取
-  SecretKey: '',              // 腾讯云账号中获取
-  cos_imageDir: "",           // 临时存放目录
-  BucketName: '',             // 桶名
-  Region: '',                 // 地区固定写法
-  root_path: '/',             // 桶下的目录路径
-  StorageClass: 'STANDARD',   // 存储方式固定写法:标准存储
-}
+const COS = require("cos-nodejs-sdk-v5");
 
 /**
- * ^ 腾讯存储对象配置信息
- * @image_cosPath:string : 文件在对象存储中的位置
- * @timeStr:string: 文件名称
- * @localFilesPath: 本地文件的读取地址 
- * #
+ * > 腾讯存储对象配置信息
+ * @param {object} TXConfig {
+ * @    BucketName{string}: 桶名
+ * @    cos_path{string}: 在对象存储中的路径
+ * @    Region{string}: 地区固定写法
+ * @    StorageClass{string}: 存储方式: 默认标准存储'STANDARD'
+ * @  }
+ * @param {string} fileName : 上传后的名称
+ * @param {*} localFilesPath :本地读取的路径
+ * @returns
  */
-function TXCosInfo(root_path, timeStr, localFilesPath) {
+function TXCosInfo(TXConfig, fileName, localFilesPath) {
   return {
-    Bucket: config.BucketName,                  // 桶名
-    Region: config.Region,                      // 地区:固定写法
-    Key: root_path + '/' + timeStr,             // 路径+文件名
-    StorageClass: config.StorageClass,          // 存储类型
-    Body: fs.createReadStream(localFilesPath),      // 上传文件对象
+    Bucket: TXConfig.BucketName, // 桶名
+    Region: TXConfig.Region, // 地区:固定写法
+    Key: TXConfig.cos_path + "/" + fileName, // 路径+文件名
+    StorageClass: TXConfig.StorageClass, // 存储类型
+    Body: fs.createReadStream(localFilesPath), // 上传文件对象
     onProgress: function () {
       // console.log(JSON.stringify(progressData)); // 打印解析信息
-    }
-  }
+    },
+  };
 }
 
 module.exports = {
   /**
-   * > 初始化
-   * @param {object} TXConfig {
-   * @  SecretId{string}: TX云 密钥 id
-   * @  SecretKey{string}: TX云 密钥 key
-   * @  cos_imageDir{string}: 临时存放目录
-   * @  picturePrefix{string}: 文件名的前缀
-   * @  BucketName{string}: 桶名
-   * @  root_path{string}: 桶内的路径
-   * @  Region{string}: 地区固定写法
-   * @ }
-   * @returns 
-   */
-  init(TXConfig) {
-    if (
-      !TXConfig.SecretId ||
-      !TXConfig.SecretKey ||
-      !TXConfig.cos_imageDir ||
-      !TXConfig.picturePrefix ||
-      !TXConfig.BucketName ||
-      !TXConfig.root_path ||
-      !TXConfig.Region
-    ) {
-      throw '初始化参数不齐'
-    }
-    for (const key in TXConfig) {
-      if (Object.hasOwnProperty.call(TXConfig, key)) {
-        config[key] = TXConfig[key];
-      }
-    }
-    // 初始化 COS 对象
-    cos = new COS({
-      SecretId: TXConfig.SecretId,
-      SecretKey: TXConfig.SecretKey
-    })
-  },
-  /** 
    * > 1. 将指定路径的文件上传到腾讯云对象中
-   * @fileNamePrefix: 设置一个文件名的前缀 例如: 用户数据
-   * @path: 需要上传的文件路径,包含文件名及扩展名
-   * @dirPath: 可选; 存储后的目录路径, 如不填统一放在 unclassified 目录下
-   * @返回: url:string
+   * @param {object} TXConfig {
+   * @    secretId{string}: 腾讯云账号中获取
+   * @    secretKey{string}: 腾讯云账号中获取
+   * @    BucketName{string}: 桶名
+   * @    cos_path{string}: 在对象存储中的路径
+   * @    Region{string}: 地区固定写法
+   * @    StorageClass{string}: 存储方式: 默认标准存储'STANDARD'
+   * @  }
+   * @param {object} LocalConfig {
+   * @    path{string}: 本地文件的存放路径
+   * @    fileNamePrefix{string}: 文件前缀
+   * @  }
+   * @returns {url: cos 的存储位置}
    */
-  uploadToTXCos(path, fileNamePrefix, dirPath) {
+  uploadToTXCos(TXConfig, LocalConfig) {
     return new Promise((resolve, reject) => {
       try {
-        // 创建一个随机名称 Temporary name
-        const date = new Date().toLocaleDateString()
-        let randomName = fileNamePrefix + date + stringRandom(12) + '.' + path.split('/').pop()
-        randomName = randomName.replace(/\//g, '-')
-        // 存储桶的配置信息
-        const root_path = dirPath ? dirPath : config.root_path
-        const cosInfo = TXCosInfo(root_path, randomName, path)
+        // 1. TX配置信息
+        const cos = new COS({
+          SecretId: TXConfig.secretId,
+          SecretKey: TXConfig.secretKey,
+        });
+        // 新文件随机名称
+        const randomName = getRandomName(LocalConfig.path, LocalConfig.fileNamePrefix);
+        // 2 本地配置信息
+        const cosInfo = TXCosInfo(TXConfig, randomName, LocalConfig.path);
         // 发送到腾讯对象存储中
         cos.putObject(cosInfo, async (error, data) => {
           // 获得返回信息,将访问路径返回
-          if (data) { return resolve({ "url": 'https://' + data.Location }) }
-          else { return reject(error); }
-        })
-
-      } catch (error) {
-        reject(error)
-      }
-    })
-  },
-  /**
-   *  删除指定 url
-   * @param {*} urlPath 完整的 URL 路径
-   */
-  delByUrl(urlPath) {
-    return new Promise((resolve, reject) => {
-      try {
-        // 截取   url
-        const index = urlPath.lastIndexOf("\/")
-        if (index == -1) {
-          return reject('url 路径可能不正确,请检查后重试')
-        }
-        const fileName = urlPath.substring(index + 1, urlPath.length)
-        cos.deleteObject({
-          Bucket: config.BucketName,
-          Region: config.Region,
-          Key: config.avatar_path + '/' + fileName,
-        }, function (err, data) {
-          if (err) {
-            reject(err)
+          if (data) {
+            return resolve({ url: "https://" + data.Location });
           } else {
-            resolve(data)
+            return reject(error);
           }
         });
       } catch (error) {
-        reject(error)
+        reject(error);
       }
-    })
-  }
-}
+    });
+  },
+  /**
+   *  删除指定 url
+   * @param {*} urlPath
+   */
+  /**
+   * 删除 TX 对象存储中指定路径的资源
+   * @param {*} TXConfig {
+   * @    secretId{string}: 腾讯云账号中获取
+   * @    secretKey{string}: 腾讯云账号中获取
+   * @    BucketName{string}: 桶名
+   * @    cos_path{string}: 在对象存储中的路径
+   * @    Region{string}: 地区固定写法
+   * @  }
+   * @param {url|string} urlPath :完整的 URL 路径或者仅仅是文件名(含扩展名)
+   * @returns
+   */
+  delByUrl(TXConfig, urlPath) {
+    return new Promise((resolve, reject) => {
+      try {
+        if (!TXConfig||!urlPath) { return reject('删除 url 缺少必要参数') }
+        // 获取路径中最后一段的文件名,
+        const fileName = getLastItem(urlPath);
+        // 1. TX配置信息
+        const cos = new COS({
+          SecretId: TXConfig.secretId,
+          SecretKey: TXConfig.secretKey,
+        });
+        cos.deleteObject(
+          {
+            Bucket: TXConfig.BucketName,
+            Region: TXConfig.Region,
+            Key: TXConfig.cos_path + "/" + fileName,
+          },
+          function (err, data) {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(data);
+            }
+          }
+        );
+      } catch (error) {
+        reject(error);
+      }
+    });
+  },
+};

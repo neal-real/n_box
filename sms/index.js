@@ -13,8 +13,9 @@ module.exports = {
   * @param {object} smsConfig {
   * @    secretId: "",  TX 密钥 id
   * @    secretKey: "", TX 密钥
-  * @    SmsSdkAppId: true,  TX 短信注册的 app id :1400549975
+  * @    SmsSdkAppId: ,  TX 短信注册的 app id :1400549975
   * @    SignName: "知识地图", 注册的项目名称
+  * @    region: 发送短信的地区 ap-beijing(默认) |ap-nanjing | ap-guangzhou
   * @    TemplateId: 短信模板 ID 
   * @ }
   * @param {object} content {
@@ -23,7 +24,7 @@ module.exports = {
   * @  }
   * @returns 
   */
-  async sendSms(smsConfig, content) {
+  async sendSms(config, content) {
     return n_sms.sendSms(config, content)
   },
 }

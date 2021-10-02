@@ -4,7 +4,7 @@
 */
 const svgCaptcha = require("svg-captcha");
 
-module.exports =  {
+export default {
   // > 生成验证码,并返回
   createImageCode(ctx) {
     // 1.设置验证配置

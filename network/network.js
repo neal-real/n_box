@@ -24,7 +24,7 @@ axios.interceptors.response.use(function (response) {
 })
 
 // 封装自己的get/post方法
-module.exports =  {
+export default {
   // get 请求 两个参数,路径和数据
   get: function (path = '', data = {}) {
     return new Promise(function (resolve, reject) {

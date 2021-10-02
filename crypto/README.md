@@ -34,7 +34,7 @@ module.exports = {
 // app/service/user.ts
 import { Service } from 'egg';
 
-module.exports =  class User extends Service {
+export default class User extends Service {
   public async signUp(data: any) {
     try {
       // 加密, abc 后可以传入加密字符串 key,可选参数
