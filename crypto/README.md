@@ -7,7 +7,7 @@
    ```shell
    #crypto node 自带
    #jsonwebtoken
-   npm i crypto jsonwebtoken
+   npm i jsonwebtoken crypto
    ```
 
    
@@ -22,7 +22,7 @@
 
 ```ts
 // 挂载到 app/extend/context.ts
-const n_crypto = require('../n_box/crypto/encrypto.js')
+const n_crypto = require('../n_box/crypto/crypto.js')
 module.exports = {
   crypto: n_crypto
 };

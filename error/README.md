@@ -2,6 +2,8 @@
 
 使用
 
+- 挂载到 app/extend/context.ts
+
 ```js
 import err = require('../n_box/error/error.js');
 module.exports = {

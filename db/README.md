@@ -10,6 +10,7 @@ npm i mongoose
 
 ## egg 中使用
 
+1. 设置 schema 的目录路径, 使用绝对路径
 1. 在 app.js 引入并初始化
 
 ```js
@@ -17,6 +18,8 @@ npm i mongoose
 const db = require( './app/n_box/db/init')
 class AppBootHook {
   async didLoad() {
+    // > 初始化数据结构的目录: 使用绝对路径
+    db.setSchemaPath(`${__dirname}/app/schema/`);
     //>连接数据库
     const conf = {
       url: "mongodb://数据库用户名:数据库用户密码@127.0.0.1:27017/knowmap",

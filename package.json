@@ -11,14 +11,15 @@
     "url": "git+https://github.com/neal-real/n_box.git"
   },
   "keywords": [
-    "顺手工具"
+    "顺手工具",
+    "数据校验工具"
   ],
-  "author": "neal_real",
-  "license": "ISC",
+  "author": "neal_w_martin <the.real.is.best@gmail.com>",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/neal-real/n_box/issues"
+    "url": "https://github.com/neal-real/neal-parameter/issues"
   },
-  "homepage": "https://github.com/neal-real/n_box#readme",
+  "homepage": "https://github.com/neal-real/neal-parameter",
   "dependencies": {
     "node-xlsx": "^0.17.1"
   }

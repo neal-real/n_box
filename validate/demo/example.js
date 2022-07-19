@@ -3,10 +3,10 @@ var Parameter = require('./');
 
 var rule = {
   name: 'string',
-  age: {type: 'int', max: 200},
+  age: { type: 'int', max: 200 },
   gender: ['male', 'female'],
   working: 'boolean',
-  salary: {type: 'number', min: 0},
+  salary: { type: 'number', min: 0 },
   birthday: 'date',
   now: 'dateTime',
   id: 'id',
@@ -18,7 +18,7 @@ var rule = {
       name: 'string',
       age: 'int',
       gender: ['male', 'female'],
-      birthday: {type: 'date', required: false}
+      birthday: { type: 'date', required: false }
     }
   },
   mate: {
@@ -28,7 +28,7 @@ var rule = {
       name: 'string',
       age: 'int',
       gender: ['male', 'female'],
-      birthday: {type: 'date', required: false}
+      birthday: { type: 'date', required: false }
     }
   }
 };

@@ -1,0 +1,146 @@
+{
+  "count": 20,
+  "start": 0,
+  "total": 23,
+  "title": "正在上映的电影-北京",
+  "subjects": [
+      {
+          "rating": {
+              "max": 10,
+              "average": 7.8,
+              "stars": "40",
+              "min": 0
+          },
+          "genres": [
+              "剧情",
+              "喜剧",
+              "冒险"
+          ],
+          "title": "一条狗的使命",
+          "casts": [
+              {
+                  "alt": "https://movie.douban.com/celebrity/1000088/",
+                  "avatars": {
+                      "small": "https://img3.doubanio.com/img/celebrity/small/1433487849.12.jpg",
+                      "large": "https://img3.doubanio.com/img/celebrity/large/1433487849.12.jpg",
+                      "medium": "https://img3.doubanio.com/img/celebrity/medium/1433487849.12.jpg"
+                  },
+                  "name": "布丽特·罗伯森",
+                  "id": "1000088"
+              },
+              {
+                  "alt": "https://movie.douban.com/celebrity/1002679/",
+                  "avatars": {
+                      "small": "https://img3.doubanio.com/img/celebrity/small/52.jpg",
+                      "large": "https://img3.doubanio.com/img/celebrity/large/52.jpg",
+                      "medium": "https://img3.doubanio.com/img/celebrity/medium/52.jpg"
+                  },
+                  "name": "丹尼斯·奎德",
+                  "id": "1002679"
+              },
+              {
+                  "alt": "https://movie.douban.com/celebrity/1049592/",
+                  "avatars": {
+                      "small": "https://img1.doubanio.com/img/celebrity/small/1376584681.68.jpg",
+                      "large": "https://img1.doubanio.com/img/celebrity/large/1376584681.68.jpg",
+                      "medium": "https://img1.doubanio.com/img/celebrity/medium/1376584681.68.jpg"
+                  },
+                  "name": "佩吉·利普顿",
+                  "id": "1049592"
+              }
+          ],
+          "collect_count": 50197,
+          "original_title": "A Dog's Purpose",
+          "subtype": "movie",
+          "directors": [
+              {
+                  "alt": "https://movie.douban.com/celebrity/1018014/",
+                  "avatars": {
+                      "small": "https://img3.doubanio.com/img/celebrity/small/4333.jpg",
+                      "large": "https://img3.doubanio.com/img/celebrity/large/4333.jpg",
+                      "medium": "https://img3.doubanio.com/img/celebrity/medium/4333.jpg"
+                  },
+                  "name": "拉斯·霍尔斯道姆",
+                  "id": "1018014"
+              }
+          ],
+          "year": "2017",
+          "images": {
+              "small": "https://img1.doubanio.com/view/movie_poster_cover/ipst/public/p2432493858.jpg",
+              "large": "https://img1.doubanio.com/view/movie_poster_cover/lpst/public/p2432493858.jpg",
+              "medium": "https://img1.doubanio.com/view/movie_poster_cover/spst/public/p2432493858.jpg"
+          },
+          "alt": "https://movie.douban.com/subject/6873143/",
+          "id": "6873143"
+      },
+      {
+          "rating": {
+              "max": 10,
+              "average": 8.4,
+              "stars": "45",
+              "min": 0
+          },
+          "genres": [
+              "剧情",
+              "动作",
+              "科幻"
+          ],
+          "title": "金刚狼3：殊死一战",
+          "casts": [
+              {
+                  "alt": "https://movie.douban.com/celebrity/1010508/",
+                  "avatars": {
+                      "small": "https://img5.doubanio.com/img/celebrity/small/22036.jpg",
+                      "large": "https://img5.doubanio.com/img/celebrity/large/22036.jpg",
+                      "medium": "https://img5.doubanio.com/img/celebrity/medium/22036.jpg"
+                  },
+                  "name": "休·杰克曼",
+                  "id": "1010508"
+              },
+              {
+                  "alt": "https://movie.douban.com/celebrity/1010540/",
+                  "avatars": {
+                      "small": "https://img3.doubanio.com/img/celebrity/small/50451.jpg",
+                      "large": "https://img3.doubanio.com/img/celebrity/large/50451.jpg",
+                      "medium": "https://img3.doubanio.com/img/celebrity/medium/50451.jpg"
+                  },
+                  "name": "帕特里克·斯图尔特",
+                  "id": "1010540"
+              },
+              {
+                  "alt": "https://movie.douban.com/celebrity/1363476/",
+                  "avatars": {
+                      "small": "https://img3.doubanio.com/img/celebrity/small/1489059638.74.jpg",
+                      "large": "https://img3.doubanio.com/img/celebrity/large/1489059638.74.jpg",
+                      "medium": "https://img3.doubanio.com/img/celebrity/medium/1489059638.74.jpg"
+                  },
+                  "name": "达芙妮·基恩",
+                  "id": "1363476"
+              }
+          ],
+          "collect_count": 124713,
+          "original_title": "Logan",
+          "subtype": "movie",
+          "directors": [
+              {
+                  "alt": "https://movie.douban.com/celebrity/1036395/",
+                  "avatars": {
+                      "small": "https://img3.doubanio.com/img/celebrity/small/11282.jpg",
+                      "large": "https://img3.doubanio.com/img/celebrity/large/11282.jpg",
+                      "medium": "https://img3.doubanio.com/img/celebrity/medium/11282.jpg"
+                  },
+                  "name": "詹姆斯·曼高德",
+                  "id": "1036395"
+              }
+          ],
+          "year": "2017",
+          "images": {
+              "small": "https://img3.doubanio.com/view/movie_poster_cover/ipst/public/p2431980130.jpg",
+              "large": "https://img3.doubanio.com/view/movie_poster_cover/lpst/public/p2431980130.jpg",
+              "medium": "https://img3.doubanio.com/view/movie_poster_cover/spst/public/p2431980130.jpg"
+          },
+          "alt": "https://movie.douban.com/subject/25765735/",
+          "id": "25765735"
+      }
+  ]
+}

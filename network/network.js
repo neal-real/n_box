@@ -1,7 +1,7 @@
 import axios from 'axios'
-import { baseURL } from './config.js'
+// import { baseURL } from './config.js'
 // 进行一些全局配置
-axios.defaults.baseURL = baseURL;  // 服务器地址
+// axios.defaults.baseURL = baseURL;  // 服务器根路径地址, 根据需求开放
 axios.defaults.withCredentials = true; // 让axios发送请求的时候带上cookie
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.defaults.timeout = 2000; // 超时时间

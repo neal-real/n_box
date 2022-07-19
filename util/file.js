@@ -27,7 +27,7 @@ function IncomingFormObj(path, size) {
 // 关于文件的处理
 module.exports = {
   /**
-   * > 解析文件,并保存在指定的临时目录中(处理过图片资源)
+   * > 解析文件,并保存在指定的临时目录中(处理过图片资源):请求时文件使用字段key 为 file
    * @param {Object} req 请求对象
    * @param {string} path 临时存放路径 例如:/www/images
    * @param {number} size 限制文件大小默认有 1M|2M|3M|5M 写1|2|3|5 或写字节数

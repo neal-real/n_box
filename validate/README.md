@@ -1,22 +1,144 @@
 # 数据校验模块
 
-## 说明
+## 这是什么
 
-- 本模块是 GitHub 上  `parameter` 的中文学抄版本， 是在学习 `eggjs` 了解到数据校验的 `egg`版本，然后其中讲到使用了 `parameter` 但是因为种种原因都不符合本人的使用习惯，然后就重新整理给予自己使用。在自己使用的过程中也秉承前人栽树后人乘凉的想法分享出来。
-- 本人不对后续更新，持续维护，使用后果做任何形式的承诺。
+- 是 GitHub 上  [paramete](https://github.com/node-modules/parameter)` 的中文学抄版本， 
 
-> 1. 删除了原框架的 options.translate 选项, 因为不需要适配其他语言.就是自己用或了解中文的使用
+## 
+
+## 我为什么要做这件事
+
+- 是在学习 `eggjs ` 时了解到数据校验的 `egg`版本，其中讲到使用了 `parameter` , 但是因为种种原因都不符合本人的使用习惯 ,主要是新手学习要学的东西太多,耐心有限,就想要看到一个中文提示,使自己的注意力更多的在业务逻辑上.所以就有改下源码提示的行为
+- 作为一个 IT 新人我知道自己水平有限, 也知道很多新人和我一样能力有限, 互联网精神嘛,分享是快乐的. 
+- 另外国内装逼犯,优越狗太多, 本人声明一下仅接受指教不接受 PUA。
+- 本人不对后续更新，持续维护，使用后果做任何形式的承诺。但如果要求合理我是非常乐意更新的, 因为我自己也在用.
+
+## 我做了什么
+
+1. 删除了原框架的 options.translate 选项, 因为不需要适配其他语言.
+2. 我将其中的提醒修改为中文
+3. 使用 Promise 进行了一个封装
+   1. 有错误返回错误, 无错误就无返回值. 这样非常合适仅作为一个数据校验存在
+
+
 
 ## 安装
+
+1. 通过 NPM 安装
+
 ```shell
 $ npm install neal-parameter --save
 ```
 
+2. 直接下载
+   1. 将 `index.js` , `middleware ` 和 `validate.js` 引入项目即可
+      1. 或者直接使用 `validate.js` 自己封装
+
+## 使用方法
+
+1. 创建一个校验文件
+
+   1. ```js
+      //  示例: 更新邮箱
+      module.exports = {
+        user_id: {
+          type: "string",
+          trim: true,
+          message: "user_id 不符合规则",
+        },
+        email: {
+          type: "email",
+          trim: true,
+          message: "邮箱验不符合规则",
+        },
+        captcha: {
+          type: "string",
+          trim: true,
+          format: /^[A-Za-z0-9]{4}$/,
+          message: "验证码不符合要求",
+        },
+        codeType: {
+          type: "string",
+          trim: true,
+          format: /^changeNumber$/,
+          message: "验证码类型不符合要求",
+        },
+      };
+      ```
+
+      
+
+2. 在 Eggjs 中使用
+
+   `app/extend/context.ts`
+
+   ```ts
+   const n_rule = require('neal-parameter');
+   module.exports = {
+     rule: n_rule,
+   };
+   ```
+
+   `app/service/user.ts`
+
+```js
+const rule = require('neal-parameter');
+// 更新用户邮箱
+public async updateEmail(data: any) {
+  const { ctx } = this;
+  try {
+    // 校验数据
+    await ctx.rule.validateDataFormat(require("../validate/user/updateEmail.js"), data);
+  }
+  catch (error) {
+    // 验证错误直接通过抛出
+    throw error;
+  }
+}
+```
 
 
-## 用法
 
-### API
+3. 在node.js 使用
+   1. 引入
+   2. 调用
+
+
+
+## 配置简单说明
+
+- 更多信息可以查看 demo 下文件示范
+
+
+
+## API
+
+```js
+/**
+   * > 严格数据格式校验 : 不能添加规则文件中没有的字段
+   * @param {string|url} rule : 规则对象||规则文件>require(路径+文件名)
+   * @param {object} data : 需要校验的数据
+   * @returns 错误原因, 正确无返回值
+   */
+validateDataFormat(rule, data)
+/**
+   * > 数据格式校验 : 可以添加规则文件中没有的字段,没有添加的字段不做校验
+   * @param {string|url} rule : 规则对象||规则文件>require(路径+文件名)
+   * @param {object} data : 需要校验的数据
+   * @returns 错误原因, 正确无返回值
+   */
+validateDataFormatSimpleMode(rule, data) {
+```
+
+
+
+## 补充
+
+- 我觉得我大概说明白了, 因为我也不知道在说什么了. 就这样吧
+
+
+
+### 原 API
 
 `Parameter` Class
 
@@ -61,7 +183,7 @@ var rule = {
 var errors = parameter.validate(rule, data);
 ```
 
-#### [复杂例子](example.js)
+#### [复杂例子](./demo/example.js)
 
 
 
@@ -216,10 +338,6 @@ type 是 `array`，则有四个可选规则
 - `'array'` => `{type: 'array', required: true}`
 - `[1, 2]` => `{type: 'enum', values: [1, 2]}`
 - `/\d+/` => `{type: 'string', required: true, allowEmpty: false, format: /\d+/}`
-
-
-
-
 
 
 
